@@ -1,113 +1,254 @@
 import 'package:flutter/material.dart';
+import 'package:gradient_widgets/gradient_widgets.dart';
+import 'package:math_expressions/math_expressions.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false,
+      home: MyHomePage(),
     );
   }
 }
 
+String strInput = "";
+final textControllerInput = TextEditingController();
+final textControllerResult = TextEditingController();
+
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  @override
+  void initState() {
+    super.initState();
+    textControllerInput.addListener(() {});
+    textControllerResult.addListener(() {});
+  }
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  @override
+  void dispose() {
+    textControllerInput.dispose();
+    textControllerResult.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+      backgroundColor: Colors.white,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          new Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: new TextField(
+                decoration: new InputDecoration.collapsed(
+                    hintText: "0",
+                    hintStyle: TextStyle(
+                      fontSize: 30,
+                      fontFamily: 'RobotoMono',
+                    )),
+                style: TextStyle(
+                  fontSize: 30,
+                  fontFamily: 'RobotoMono',
+                ),
+                textAlign: TextAlign.right,
+                controller: textControllerInput,
+                onTap: () =>
+                    FocusScope.of(context).requestFocus(new FocusNode()),
+              )),
+          new Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: TextField(
+                decoration: new InputDecoration.collapsed(
+                    hintText: "Result",
+                    // fillColor: Colors.deepPurpleAccent,
+                    hintStyle: TextStyle(fontFamily: 'RobotoMono')),
+                textInputAction: TextInputAction.none,
+                keyboardType: TextInputType.number,
+                style: TextStyle(
+                    fontSize: 32,
+                    fontFamily: 'RobotoMono',
+                    fontWeight: FontWeight.bold
+                    // color: Colors.deepPurpleAccent
+                    ),
+                textAlign: TextAlign.right,
+                controller: textControllerResult,
+                onTap: () {
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                  // ClipboardManager.copyToClipBoard(textControllerResult.text).then((result) {
+                  //   Fluttertoast.showToast(
+                  //       msg: "Value copied to clipboard!",
+                  //       toastLength: Toast.LENGTH_SHORT,
+                  //       gravity: ToastGravity.CENTER,
+                  //       timeInSecForIos: 1,
+                  //       backgroundColor: Colors.blueAccent,
+                  //       textColor: Colors.white,
+                  //       fontSize: 16.0
+                  //   );
+                  // });
+                },
+              )),
+          SizedBox(height: 20.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              btnAC(
+                'AC',
+                const Color(0xFFF5F7F9),
+              ),
+              btnClear(),
+              btn(
+                '%',
+                const Color(0xFFF5F7F9),
+              ),
+              btn(
+                '/',
+                const Color(0xFFF5F7F9),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              btn('7', Colors.white),
+              btn('8', Colors.white),
+              btn('9', Colors.white),
+              btn(
+                '*',
+                const Color(0xFFF5F7F9),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              btn('4', Colors.white),
+              btn('5', Colors.white),
+              btn('6', Colors.white),
+              btn(
+                '-',
+                const Color(0xFFF5F7F9),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              btn('1', Colors.white),
+              btn('2', Colors.white),
+              btn('3', Colors.white),
+              btn('+', const Color(0xFFF5F7F9)),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              btn('0', Colors.white),
+              btn('.', Colors.white),
+              btnEqual('='),
+            ],
+          ),
+          SizedBox(
+            height: 10.0,
+          )
+        ],
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+    );
+  }
+
+  Widget btn(btntext, Color btnColor) {
+    return Container(
+      padding: EdgeInsets.only(bottom: 10.0),
+      child: FlatButton(
+        child: Text(
+          btntext,
+          style: TextStyle(
+              fontSize: 28.0, color: Colors.black, fontFamily: 'RobotoMono'),
         ),
+        onPressed: () {
+          setState(() {
+            textControllerInput.text = textControllerInput.text + btntext;
+          });
+        },
+        color: btnColor,
+        padding: EdgeInsets.all(18.0),
+        splashColor: Colors.black,
+        shape: CircleBorder(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  Widget btnClear() {
+    return Container(
+      padding: EdgeInsets.only(bottom: 10.0),
+      child: FlatButton(
+        child: Icon(Icons.backspace, size: 35, color: Colors.blueGrey),
+        onPressed: () {
+          textControllerInput.text = (textControllerInput.text.length > 0)
+              ? (textControllerInput.text
+                  .substring(0, textControllerInput.text.length - 1))
+              : "";
+        },
+        color: const Color(0xFFF5F7F9),
+        padding: EdgeInsets.all(18.0),
+        splashColor: Colors.black,
+        shape: CircleBorder(),
+      ),
+    );
+  }
+
+  Widget btnAC(btntext, Color btnColor) {
+    return Container(
+      padding: EdgeInsets.only(bottom: 10.0),
+      // ignore: deprecated_member_use
+      child: FlatButton(
+        child: Text(
+          btntext,
+          style: TextStyle(
+              fontSize: 28.0, color: Colors.black, fontFamily: 'RobotoMono'),
+        ),
+        onPressed: () {
+          setState(() {
+            textControllerInput.text = "";
+            textControllerResult.text = "";
+          });
+        },
+        color: btnColor,
+        padding: EdgeInsets.all(18.0),
+        splashColor: Colors.black,
+        shape: CircleBorder(),
+      ),
+    );
+  }
+
+  Widget btnEqual(btnText) {
+    return GradientButton(
+      child: Text(
+        btnText,
+        style: TextStyle(fontSize: 35.0),
+      ),
+      increaseWidthBy: 40.0,
+      increaseHeightBy: 10.0,
+      callback: () {
+        //Calculate everything here
+        // Parse expression:
+        Parser p = new Parser();
+        // Bind variables:
+        ContextModel cm = new ContextModel();
+        Expression exp = p.parse(textControllerInput.text);
+        setState(() {
+          textControllerResult.text =
+              exp.evaluate(EvaluationType.REAL, cm).toString();
+        });
+      },
+      gradient: Gradients.jShine,
     );
   }
 }
