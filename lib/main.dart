@@ -41,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
@@ -51,13 +51,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration: new InputDecoration.collapsed(
                     hintText: "0",
                     hintStyle: TextStyle(
+                      color: Colors.white,
                       fontSize: 30,
                       fontFamily: 'RobotoMono',
                     )),
                 style: TextStyle(
-                  fontSize: 30,
-                  fontFamily: 'RobotoMono',
-                ),
+                    fontSize: 30,
+                    fontFamily: 'RobotoMono',
+                    color: Colors.white),
                 textAlign: TextAlign.right,
                 controller: textControllerInput,
                 onTap: () =>
@@ -69,13 +70,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration: new InputDecoration.collapsed(
                     hintText: "Result",
                     // fillColor: Colors.deepPurpleAccent,
-                    hintStyle: TextStyle(fontFamily: 'RobotoMono')),
+                    hintStyle: TextStyle(
+                        fontFamily: 'RobotoMono', color: Colors.white)),
                 textInputAction: TextInputAction.none,
                 keyboardType: TextInputType.number,
                 style: TextStyle(
                     fontSize: 32,
                     fontFamily: 'RobotoMono',
-                    fontWeight: FontWeight.bold
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white
                     // color: Colors.deepPurpleAccent
                     ),
                 textAlign: TextAlign.right,
@@ -166,6 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget btn(btntext, Color btnColor) {
     return Container(
       padding: EdgeInsets.only(bottom: 10.0),
+      // ignore: deprecated_member_use
       child: FlatButton(
         child: Text(
           btntext,
@@ -188,6 +192,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget btnClear() {
     return Container(
       padding: EdgeInsets.only(bottom: 10.0),
+      // ignore: deprecated_member_use
       child: FlatButton(
         child: Icon(Icons.backspace, size: 35, color: Colors.blueGrey),
         onPressed: () {
@@ -237,7 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
       increaseWidthBy: 40.0,
       increaseHeightBy: 10.0,
       callback: () {
-        //Calculate everything here
+        //Calculating everything here
         // Parse expression:
         Parser p = new Parser();
         // Bind variables:
