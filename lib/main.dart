@@ -183,7 +183,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         color: btnColor,
         padding: EdgeInsets.all(18.0),
-        splashColor: Colors.black,
+        splashColor: Colors.blue,
         shape: CircleBorder(),
       ),
     );
